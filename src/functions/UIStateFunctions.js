@@ -6,8 +6,8 @@ import storage from '../webaverse/storage.js';
 const hdkey = hdkeySpec.default;
 
 export const getAddress = (state) => {
-  if (!state.loginToken.mnemonic) return state;
-  const wallet = hdkey.fromMasterSeed(bip39.mnemonicToSeedSync(state.loginToken.mnemonic)).derivePath(`m/44'/60'/0'/0/0`).getWallet();
+  if (!state.loginToken) return state;
+  const wallet = hdkey.fromMasterSeed(bip39.mnemonicToSeedSync(state.loginToken)).derivePath(`m/44'/60'/0'/0/0`).getWallet();
   const address = wallet.getAddressString();
 
   return { ...state, address };
@@ -126,7 +126,7 @@ export const pullUser = async (state) => {
 
 export const pullUserObject = async (state) => {
 
-  const address = getAddressFromMnemonic(state.loginToken.mnemonic);
+  const address = getAddressFromMnemonic(state.loginToken);
   const res = await fetch(`https://accounts.webaverse.com/${address}`);
   const result = await res.json();
   const newState = {

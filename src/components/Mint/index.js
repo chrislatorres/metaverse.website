@@ -23,13 +23,13 @@ export default () => {
   const handleQuantityChange = (e) => setQuantity(e.target.value);
 
   const handleMintNftButton = (e) => {
-    e.preDefault();
+    e.preventDefault();
     mintNft(file,
        name,
        description,
        quantity,
        (err) => {
-         console.error("Minting failed", err);
+         console.log("Minting failed", err);
          setMintedState('error')},
        () => {
          console.log("Success callback!"); 
@@ -76,7 +76,7 @@ export default () => {
                     <input type="number" onChange={handleQuantityChange} />
 
                     <a className="button" onClick={handleMintNftButton}>
-                      Mint NFT
+                      Mint NFT for 10 GREASE
                     </a>
                   </div>
                 </Col>

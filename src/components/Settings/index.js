@@ -19,8 +19,8 @@ export default () => {
     return false;
   }
 
-  const setInitialState = (address) => {
-    pullUser({ ...globalState, address })
+  const setInitialState = (state) => {
+    pullUser({ ...state })
     .then(async res => {
       const newState = await getInventoryForCreator(res.address, 0, true, res);
       setGlobalState(newState);
@@ -34,7 +34,7 @@ export default () => {
   const loginWithKey = () => {
     loginWithEmailOrPrivateKey(key, globalState)
     .then(res => {
-      setInitialState(res.address);
+      setInitialState(res);
     })
     .catch(err => {
       console.log(err);
@@ -97,6 +97,7 @@ export default () => {
       </div>
     </Col>
 
+  console.log(globalState);
   const Inventory = () => globalState.address && globalState.creatorInventories && globalState.creatorInventories[globalState.address] && globalState.creatorInventories[globalState.address][0] ? 
     globalState.creatorInventories[globalState.address][0].map((item, i) =>
      <Col key={i} className="content" sm={2} style={{
