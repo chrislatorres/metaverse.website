@@ -5,6 +5,7 @@ import { Container, Row, Col } from 'react-grid-system';
 import { useAppContext } from "../../libs/contextLib";
 import { loginWithEmailOrPrivateKey, getAddress, getInventoryForCreator, pullUser } from "../../functions/UIStateFunctions.js";
 import preview from "../../assets/images/preview.png";
+import { discordOauthUrl } from '../../webaverse/constants.js'
 
 export default () => {
   const { globalState, setGlobalState } = useAppContext();
@@ -129,6 +130,7 @@ export default () => {
           </Col>
         :
           <Col sm={12}>
+{/*
             <Col sm={7}>
               <h2>MetaMask</h2>
               <br />
@@ -137,7 +139,9 @@ export default () => {
               </a>
             </Col>
             <br />
+*/}
             <Col sm={7}>
+              <a className="discordButton" href={discordOauthUrl}>Login With Discord</a>
               <h2>Private Key</h2>
               <input
                 type="text"
