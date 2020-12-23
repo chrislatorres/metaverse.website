@@ -71,4 +71,4 @@ export const contractsHost = 'https://contracts.webaverse.com';
 export const presenceHost = 'worlds.webaverse.com';
 export const localstorageHost = 'https://localstorage.webaverse.com';
 export const loginEndpoint = 'https://login.exokit.org';
-export const web3SidechainEndpoint = 'https://ethereum.exokit.org';
+export const web3SidechainEndpoint = 'https://ethereum.exokit.org:8545';
