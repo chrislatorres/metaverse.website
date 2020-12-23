@@ -4,6 +4,7 @@ import Web3 from 'web3';
 import { Container, Row, Col } from 'react-grid-system';
 import { useAppContext } from "../../libs/contextLib";
 import { loginWithEmailOrPrivateKey, getAddress, getInventoryForCreator, pullUser } from "../../functions/UIStateFunctions.js";
+import preview from "../../assets/images/preview.png";
 
 export default () => {
   const { globalState, setGlobalState } = useAppContext();
@@ -26,6 +27,10 @@ export default () => {
     });
   }
 
+  const logout = () => {
+    setGlobalState({ ...globalState, address: "", name: "", avatarUrl: "", avatarPreview: "", avatarFileName: "" }); 
+  }
+
   const loginWithKey = () => {
     loginWithEmailOrPrivateKey(key, globalState)
     .then(res => {
@@ -35,6 +40,7 @@ export default () => {
       console.log(err);
     });
   }
+
   const loginWithMetaMask = () => {
     if (!ethEnabled()) {
       alert("Please install an Ethereum-compatible browser or extension like MetaMask to use Webaverse!");
@@ -61,6 +67,28 @@ export default () => {
     }
   }
 
+  const Profile = () => 
+    <Col sm={12} className="profileHeaderContainer">
+      <div className="profileHeaderBackground" style={{
+        backgroundImage: `url(${globalState.homeSpacePreview})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+      }} />
+      <div className="profileHeader">
+        {globalState.name ? 
+          <div className="profileName">
+            <h1 className="profileText">{globalState.name}</h1>
+            <a className="profileText" onClick={() => logout() }>
+              Logout 
+            </a>
+          </div>
+        : null}
+        <img src={globalState.avatarPreview ? globalState.avatarPreview : preview} />
+      </div>
+    </Col>
+
+
   console.log(globalState);
   const Inventory = () => globalState.address && globalState.creatorInventories && globalState.creatorInventories[globalState.address] && globalState.creatorInventories[globalState.address][0] ? 
     globalState.creatorInventories[globalState.address][0].map((item, i) =>
@@ -77,29 +105,36 @@ export default () => {
   return (
     <Container>
       <Row style={{ justifyContent: "center" }}>
-        <Col sm={7}>
-          <h2>Account Information</h2>
-          <p>{globalState.name ? `Name: ${globalState.name}` : null}</p> 
-          <p>{globalState.address ? `Address: ${globalState.address}` : null}</p> 
-          <img className="accountPicture" src={globalState.avatarPreview ? globalState.avatarPreview : null} />
-        </Col>
-        <Col sm={7}>
-          <h2>Private Key</h2>
-          <input
-            type="text"
-            onChange={handleChange}
-          /> 
-          <a className="button" onClick={() => loginWithKey() }>
-            Login With Key 
-          </a>
-        </Col>
-        <Col sm={7}>
-          <h2>MetaMask</h2>
-          <a className="button" onClick={() => loginWithMetaMask() }>
-            Login With MetaMask
-          </a>
-        </Col>
-        <Inventory />
+        { globalState.address ?
+          <Col sm={12}>
+            <Profile />
+            <Row style={{ justifyContent: "center" }}>
+              <Inventory />
+            </Row>
+          </Col>
+        :
+          <Col sm={12}>
+            <Col sm={7}>
+              <h2>MetaMask</h2>
+              <br />
+              <a className="button" onClick={() => loginWithMetaMask() }>
+                Login With MetaMask
+              </a>
+            </Col>
+            <br />
+            <Col sm={7}>
+              <h2>Private Key</h2>
+              <input
+                type="text"
+                onChange={handleChange}
+              /> 
+              <a className="button" onClick={() => loginWithKey() }>
+                Login With Key 
+              </a>
+            </Col>
+            <Inventory />
+          </Col>
+        }
       </Row>
     </Container>
   )

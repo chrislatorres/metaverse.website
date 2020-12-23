@@ -41,9 +41,7 @@ const App = () => {
   });
 
   React.useEffect(() => {
-    if (globalState.address) {
-      localStorage.setItem('globalState', JSON.stringify(globalState));
-    }
+    localStorage.setItem('globalState', JSON.stringify(globalState));
   }, [globalState]);
 
   React.useEffect(() => {

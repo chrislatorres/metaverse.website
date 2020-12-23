@@ -36,11 +36,16 @@ export default () => {
    ) : null
 
   const Profile = () => profile ? 
-    <Col sm={10}>
+    <Col sm={10} className="profileHeaderContainer">
+      <div className="profileHeaderBackground" style={{ 
+        backgroundImage: `url(${profile.homeSpacePreview})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+      }} />
       <div className="profileHeader">
         <div className="profileName">
-          <h1>{profile.name}</h1>
-          <p>{profile.address}</p>
+          <h1 className="profileText">{profile.name}</h1>
         </div>
         <img src={profile.avatarPreview} />
       </div>

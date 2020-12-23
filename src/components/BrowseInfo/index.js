@@ -42,7 +42,6 @@ export default () => {
       <div className="profileHeader">
         <div className="profileName">
           <h1>{item.name}</h1>
-          <p>Current Owner: {item.owner.address}</p>
           <p>Total Supply: {item.totalSupply}</p>
         </div>
         <img src={item.image} />
