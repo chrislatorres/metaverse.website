@@ -141,7 +141,9 @@ export default () => {
             <br />
 */}
             <Col sm={7}>
-              <a className="discordButton" href={discordOauthUrl}>Login With Discord</a>
+              <a className="button" href={discordOauthUrl}>
+                Login With Discord
+              </a>
               <h2>Private Key</h2>
               <input
                 type="text"
