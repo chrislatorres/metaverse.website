@@ -76,8 +76,14 @@ export const setAvatar = async (id, successCallback, errorCallback) => {
 };
 
 export const mintNft = async (file, name, description, quantity, successCallback, errorCallback, state) => {
+  console.log("mintNft file", file);
+  console.log("mintNft name", name);
+  console.log("mintNft description", description);
+  console.log("mintNft quantity", quantity);
   const { mnemonic } = state.loginToken;
+  console.log("mintNft mnemonioc", mnemonic);
   const address = state.address;
+  console.log("mintNft address", address);
   const res = await fetch(storageHost, { method: 'POST', body: file });
   const { hash } = await res.json();
 
@@ -92,7 +98,9 @@ export const mintNft = async (file, name, description, quantity, successCallback
         .mul(new web3['sidechain'].utils.BN(1e9)),
     };
 
+    console.log("mintNft before side chain");
     const result = await runSidechainTransaction(mnemonic)('FT', 'approve', contracts['sidechain']['NFT']._address, fullAmount.v);
+    console.log("mintNft result sc transaction", result);
     status = result.status;
     transactionHash = '0x0';
     tokenIds = [];

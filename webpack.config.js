@@ -37,7 +37,7 @@ module.exports = {
             dead_code: true, // big one--strip code that will never execute
             warnings: false, // good for prod apps so users can't peek behind curtain
             drop_debugger: true,
-            drop_console: true, // strips console statements
+            drop_console: false, // strips console statements
           }
         }
       })
