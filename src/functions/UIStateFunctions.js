@@ -126,6 +126,7 @@ export const pullUser = async (state) => {
 
 export const pullUserObject = async (state) => {
   console.log("pullUser", state);
+  console.log("state.loginToken", state.loginToken);
   const address = getAddressFromMnemonic(state.loginToken);
   const res = await fetch(`https://accounts.webaverse.com/${address}`);
   const result = await res.json();
