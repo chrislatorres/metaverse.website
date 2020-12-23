@@ -99,7 +99,6 @@ export default () => {
       </div>
     </Col>
 
-  console.log(globalState);
   const Inventory = () => globalState.address && globalState.creatorInventories && globalState.creatorInventories[globalState.address] && globalState.creatorInventories[globalState.address][0] ? 
     globalState.creatorInventories[globalState.address][0].map((item, i) =>
      <Col key={i} className="content" sm={2} style={{
