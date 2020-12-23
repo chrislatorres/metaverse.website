@@ -159,6 +159,14 @@ export const loginWithEmailCode = async (email, code, state) => {
   setNewLoginToken(newLoginToken, state);
 };
 
+export const loginWithPrivateKey = async (privateKey, state) => {
+  const split = privateKey.split(/\s+/).filter(w => !!w);
+
+  // Private key
+  const mnemonic = split.slice(0, 12).join(' ');
+  return await setNewLoginToken(mnemonic, state);
+};
+
 export const loginWithEmailOrPrivateKey = async (emailOrPrivateKey, state) => {
   const split = emailOrPrivateKey.split(/\s+/).filter(w => !!w);
 

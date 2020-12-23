@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Web3 from 'web3';
 import { Container, Row, Col } from 'react-grid-system';
 import { useAppContext } from "../../libs/contextLib";
-import { loginWithEmailOrPrivateKey, getAddress, getInventoryForCreator, pullUser } from "../../functions/UIStateFunctions.js";
+import { loginWithPrivateKey, getAddress, getInventoryForCreator, pullUser } from "../../functions/UIStateFunctions.js";
 import preview from "../../assets/images/preview.png";
 import { discordOauthUrl } from '../../webaverse/constants.js'
 
@@ -35,7 +35,7 @@ export default () => {
   }
 
   const loginWithKey = () => {
-    loginWithEmailOrPrivateKey(key, globalState)
+    loginWithPrivateKey(key, globalState)
     .then(res => {
       setInitialState(res);
     })
@@ -116,7 +116,10 @@ export default () => {
      </Col>
    ) : null
 
-  const handleChange = e => setKey(e.target.value);
+  const handleChange = e => {
+    console.log(e.target.value);
+    setKey(e.target.value);
+  }
 
   return (
     <Container>
