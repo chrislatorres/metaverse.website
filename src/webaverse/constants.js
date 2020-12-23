@@ -1,4 +1,4 @@
-xport const PARCEL_SIZE = 300;
+export const PARCEL_SIZE = 300;
 export const SUBPARCEL_SIZE = 10;
 export const SUBPARCEL_SIZE_P1 = SUBPARCEL_SIZE + 1;
 export const SUBPARCEL_SIZE_P3 = SUBPARCEL_SIZE + 3;
