@@ -22,20 +22,16 @@ export default () => {
     });
   }, []);
 
-  const Creators = () => creators ? creators.map((item, i) => {
-    console.log(item);
-
-    return(
-     item.address && item.name || item.avatarPreview ?
-       <Col key={i} className="content" sm={2}>
-         <Link to={"/accounts/" + item.address}>
-           <img src={item.avatarPreview ? item.avatarPreview : preview} />
-           <h3>{item.name ? item.name : "Anonymous"}</h3>
-         </Link>
-       </Col>
-      : null
-    )
-   }) : null
+  const Creators = () => creators ? creators.map((item, i) =>
+    item.address && item.name || item.avatarPreview ?
+      <Col key={i} className="content" sm={2}>
+        <Link to={"/accounts/" + item.address}>
+          <img src={item.avatarPreview ? item.avatarPreview : preview} />
+          <h3>{item.name ? item.name : "Anonymous"}</h3>
+        </Link>
+      </Col>
+    : null
+  ) : null
 
   return (
     <>

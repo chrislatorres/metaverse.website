@@ -71,13 +71,12 @@ export const getBoothForCreator = async (creatorAddress, page, forceUpdate, stat
 export const getProfileForCreator = async (creatorAddress, state) => {
   console.log("Getting profile for creator")
   // Use cached page
+/*
   if (state.creatorProfiles[creatorAddress] !== undefined &&
     state.creatorInventories[creatorAddress] !== undefined &&
     state.creatorBooths[creatorAddress] !== undefined)
     return state;
-
-    console.log("Got this far")
-
+*/
 
   const res = await fetch(`https://accounts.webaverse.com/${creatorAddress}`);
   const creatorProfile = await res.json();
@@ -85,7 +84,6 @@ export const getProfileForCreator = async (creatorAddress, state) => {
   newState.creatorProfiles[creatorAddress] = creatorProfile;
   const nextState = await getBoothForCreator(creatorAddress, 1, false, newState);
   const lastState = await getInventoryForCreator(creatorAddress, 1, false, nextState);
-  console.log("Last state is", lastState);
   return lastState;
 };
 

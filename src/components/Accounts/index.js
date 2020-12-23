@@ -24,20 +24,12 @@ export default () => {
     getProfileForCreator(id, globalState).then(res => {
       setProfile(res.creatorProfiles[id]);
       setLoading(false);
+      console.log(res.creatorProfiles[id]);
     });
   }, []);
 
-  const Inventory = () => inventory ? inventory.map((item, i) =>
-     <Col key={i} className="content" sm={2}>
-       <Link to={"/browse/" + item.id}>
-         <img src={item.image} />
-         <h3>{item.name.replace(/\.[^/\\.]+$/, "")}</h3>
-       </Link>
-     </Col>
-   ) : null
-
   const Profile = () => profile ? 
-    <Col sm={10} className="profileHeaderContainer">
+    <Col sm={12} className="profileHeaderContainer">
       <div className="profileHeaderBackground" style={{ 
         backgroundImage: `url(${profile.homeSpacePreview})`,
         backgroundSize: "cover",
@@ -62,6 +54,14 @@ export default () => {
     </Col>
   : null
 
+  const Inventory = () => inventory ? inventory.map((item, i) =>
+     <Col key={i} className="content" sm={2}>
+       <Link to={"/browse/" + item.id}>
+         <img src={item.image} />
+         <h3>{item.name.replace(/\.[^/\\.]+$/, "")}</h3>
+       </Link>
+     </Col>
+   ) : null
 
   return (
     <>
