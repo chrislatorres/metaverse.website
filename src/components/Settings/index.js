@@ -24,7 +24,7 @@ export default () => {
     pullUser({ ...state })
     .then(async res => {
       const newState = await getInventoryForCreator(res.address, 0, true, res);
-      console.log(newState):
+      console.log(newState);
       setGlobalState(newState);
     });
   }
