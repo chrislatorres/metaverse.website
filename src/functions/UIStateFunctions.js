@@ -125,15 +125,17 @@ export const pullUser = async (state) => {
 };
 
 export const pullUserObject = async (state) => {
-
+  console.log("pullUser", state);
   const address = getAddressFromMnemonic(state.loginToken);
   const res = await fetch(`https://accounts.webaverse.com/${address}`);
   const result = await res.json();
+  console.log("pullUser result", result);
   const newState = {
     ...state,
     address,
     ...result
   };
+  console.log("pullUser newState", newState);
   return newState;
 };
 
@@ -189,8 +191,8 @@ export const setNewLoginToken = async (newLoginToken, state) => {
   localStorage.setItem('loginToken', newLoginToken);
   console.log("storage set!");
   const newState = await pullUserObject({ ...state, loginToken: newLoginToken });
+  console.log("returnining new state", newState);
   return newState;
-
 };
 
 export const logout = async (state) => {
