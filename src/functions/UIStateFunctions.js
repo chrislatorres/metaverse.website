@@ -1,9 +1,22 @@
 import bip39 from '../libs/bip39.js';
 import hdkeySpec from '../libs/hdkey.js';
-import { getAddressFromMnemonic } from '../webaverse/blockchain.js';
+import { contracts, getAddressFromMnemonic } from '../webaverse/blockchain.js';
 import storage from '../webaverse/storage.js';
 
 const hdkey = hdkeySpec.default;
+
+
+export const getBalance = async (state) => {
+  try {
+    const wallet = hdkey.fromMasterSeed(bip39.mnemonicToSeedSync(state.loginToken)).derivePath(`m/44'/60'/0'/0/0`).getWallet();
+    const address = wallet.getAddressString();
+    const result = await contracts["sidechain"]["FT"].methods.balanceOf(address).call();
+    return result;
+  } catch (error) {
+    console.warn(error);
+    return;
+  }
+}
 
 export const getAddress = (state) => {
   if (!state.loginToken) return state;
@@ -53,17 +66,17 @@ export const getBoothForCreator = async (creatorAddress, page, forceUpdate, stat
     return state;
   }
 
+  creatorAddress = creatorAddress.toLowerCase();
   const address = `https://store.webaverse.com/${creatorAddress}?page=`;
-  console.log("Addres is", `https://store.webaverse.com/${creatorAddress}?page=`);
   const res = await fetch(address);
   const creatorBooth = await res.json();
   const entries = (creatorBooth[0] === undefined) ? [] : creatorBooth[0].entries;
-  console.log("creatorBooth is", entries);
+  
   const newState = { ...state };
   if (newState.creatorBooths[creatorAddress] === undefined) {
     newState.creatorBooths[creatorAddress] = {};
   }
-    newState.creatorBooths[creatorAddress][page] = entries;
+  newState.creatorBooths[creatorAddress][page] = entries;
 
   return newState;
 };

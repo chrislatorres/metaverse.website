@@ -19,6 +19,7 @@ const web3 = {
   main: new Web3(window.ethereum),
   sidechain: new Web3(new Web3.providers.HttpProvider(web3SidechainEndpoint)),
 };
+web3['sidechain'].eth.transactionConfirmationBlocks = 1;
 
 const contracts = {
   main: {
@@ -60,11 +61,19 @@ const transactionQueue = {
   },
 };
 const runSidechainTransaction = mnemonic => async (contractName, method, ...args) => {
+  console.log("runSC transaction contract", contractName);
+  console.log("runSC transaction method", method);
+  console.log("runSC transaction args", ...args);
+  console.log("runSC transaction mnemonic", mnemonic);
   const wallet = hdkey.fromMasterSeed(bip39.mnemonicToSeedSync(mnemonic)).derivePath(`m/44'/60'/0'/0/0`).getWallet();
+  console.log("runSC transaction wallet", wallet);
   const address = wallet.getAddressString();
+  console.log("runSC transaction addr", address);
   // console.log('got mnem', mnemonic, address);
   const privateKey = wallet.getPrivateKeyString();
+  console.log("runSC transaction pkey", privateKey);
   const privateKeyBytes = Uint8Array.from(web3['sidechain'].utils.hexToBytes(privateKey));
+  console.log("runSC transaction pkey bytes", privateKeyBytes);
 
   const txData = contracts['sidechain'][contractName].methods[method](...args);
   const data = txData.encodeABI();
@@ -95,9 +104,11 @@ const runSidechainTransaction = mnemonic => async (contractName, method, ...args
     ),
   }).sign(privateKeyBytes);
   const rawTx = '0x' + tx.serialize().toString('hex');
-  // console.log('signed tx', tx, rawTx);
+  console.log('signed tx', tx, rawTx);
   const receipt = await web3['sidechain'].eth.sendSignedTransaction(rawTx);
+  console.log("receipt", receipt);
   transactionQueue.unlock();
+  console.log("returning receipt", receipt);
   return receipt;
 };
 const getTransactionSignature = async (chainName, contractName, transactionHash) => {

@@ -80,7 +80,7 @@ export const mintNft = async (file, name, description, quantity, successCallback
   console.log("mintNft name", name);
   console.log("mintNft description", description);
   console.log("mintNft quantity", quantity);
-  const { mnemonic } = state.loginToken;
+  const  mnemonic = state.loginToken;
   console.log("mintNft mnemonioc", mnemonic);
   const address = state.address;
   console.log("mintNft address", address);
@@ -97,21 +97,38 @@ export const mintNft = async (file, name, description, quantity, successCallback
         .mul(new web3['sidechain'].utils.BN(1e9))
         .mul(new web3['sidechain'].utils.BN(1e9)),
     };
+    const fullAmountD2 = {
+      t: 'uint256',
+      v: fullAmount.v.div(new web3['sidechain'].utils.BN(2)),
+    };
+
+    let allowance = await contracts.sidechain.FT.methods.allowance(address, contracts['sidechain']['NFT']._address).call();
+    allowance = new web3.utils.BN(allowance, 10);
+    if (allowance.lt(fullAmountD2.v)) {
+      const result = await runSidechainTransaction(mnemonic)('FT', 'approve', contracts['sidechain']['NFT']._address, fullAmount.v);
+      status = result.status;
+    } else {
+      status = true;
+//      transactionHash = '0x0';
+//      tokenIds = [];
+    }
 
     console.log("mintNft before side chain");
-    const result = await runSidechainTransaction(mnemonic)('FT', 'approve', contracts['sidechain']['NFT']._address, fullAmount.v);
     console.log("mintNft result sc transaction", result);
-    status = result.status;
-    transactionHash = '0x0';
-    tokenIds = [];
-
     console.log("File is", file);
     console.log("Description is", description);
 
     if (status) {
       console.log("Status is", status)
+      console.log("Status mnemonic", mnemonic)
+      console.log("Status address", address)
+      console.log("Status hash", hash)
+      console.log("Status file.name", file.name)
+      console.log("Status description", description)
+      console.log("Status quantity", quantity)
       const result = await runSidechainTransaction(mnemonic)('NFT', 'mint', address, '0x' + hash, file.name, description, quantity);
-      console.log("Result is ", result.json());
+
+      console.log("Result is ", result);
       status = result.status;
       transactionHash = result.transactionHash;
       const tokenId = new web3['sidechain'].utils.BN(result.logs[0].topics[3].slice(2), 16).toNumber();

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom"
 import Web3 from 'web3';
 import axios from "axios";
 import { useAppContext } from "../../libs/contextLib";
-import { getInventoryForCreator, getProfileForCreator } from "../../functions/UIStateFunctions.js";
+import { getInventoryForCreator, getProfileForCreator, getBoothForCreator, getBalance } from "../../functions/UIStateFunctions.js";
 import preview from "../../assets/images/preview.png";
 
 export default () => {
@@ -14,6 +14,8 @@ export default () => {
   const { globalState, setGlobalState } = useAppContext();
   const [loading, setLoading] = useState(true);
   const [inventory, setInventory] = useState(null);
+  const [forSale, setForSale] = useState(null);
+  const [balance, setBalance] = useState(null);
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
@@ -21,10 +23,18 @@ export default () => {
       setInventory(res.creatorInventories[id][0]);
     });
 
+    getBoothForCreator(id, 0, true, globalState).then(res => {
+      setForSale(res.creatorBooths[id.toLowerCase()][0]);
+    });
+  
+    getBalance(globalState).then(res => {
+      console.log(res);
+      setBalance(res);
+    });
+
     getProfileForCreator(id, globalState).then(res => {
       setProfile(res.creatorProfiles[id]);
       setLoading(false);
-      console.log(res.creatorProfiles[id]);
     });
   }, []);
 
@@ -39,6 +49,7 @@ export default () => {
       <div className="profileHeader">
         <div className="profileName">
           <h1 className="profileText">{profile.name ? profile.name : "Anonymous"}</h1>
+          <h1 className="profileText">GREASE Balance: {balance ? balance : "0"}</h1>
           <div className="profileLoadout">
             {profile.loadout ? 
                 JSON.parse(profile.loadout).map((item, i) => 
@@ -53,6 +64,21 @@ export default () => {
       </div>
     </Col>
   : null
+
+  const ForSale = () => forSale ? forSale.map((item, i) =>
+     <Col key={i} className="content" sm={2} style={{
+       backgroundImage: `url("${item.image}")`,
+       backgroundSize: "cover",
+       backgroundRepeat: "no-repeat",
+       backgroundPosition: "center center",
+     }}>
+       <Link to={"/browse/" + item.id}>
+         <div className="content-inner">
+           <h3 className="contentText">{item.name.replace(/\.[^/\\.]+$/, "")}</h3>
+         </div>
+       </Link>
+     </Col>
+   ) : null
 
   const Inventory = () => inventory ? inventory.map((item, i) =>
      <Col key={i} className="content" sm={2} style={{
@@ -83,7 +109,18 @@ export default () => {
         :
           <>
             <Profile />
-            <Inventory />
+            <Col sm={9}>
+              <h1>For Sale</h1>
+            </Col>
+            <Row sm={12}>
+              <ForSale />
+            </Row>
+            <Col sm={9}>
+              <h1>Inventory</h1>
+            </Col>
+            <Row sm={12}>
+              <Inventory />
+            </Row>
           </>
         }
         </Row>
