@@ -33,7 +33,7 @@ const metaverseUrl = "app.webaverse.com"
 //export const discordOauthUrl = `https://discord.com/api/oauth2/authorize?client_id=684141574808272937&redirect_uri=${localUrl}&response_type=code&scope=identify`;
 console.log(discordOauthUrl);
 
-export const discordOauthUrl = `https://discord.com/api/oauth2/authorize?client_id=684141574808272937&redirect_uri=${metaverselUrl}&response_type=code&scope=identify`;
+export const discordOauthUrl = `https://discord.com/api/oauth2/authorize?client_id=684141574808272937&redirect_uri=${metaverseUrl}&response_type=code&scope=identify`;
 
 
 //export const discordOauthUrl = `https://discord.com/api/oauth2/authorize?client_id=684141574808272937&redirect_uri=https%3A%2F%2Fapp.webaverse.com%2Fdiscordlogin.html&response_type=code&scope=identify`;
