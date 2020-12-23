@@ -183,7 +183,11 @@ export const loginWithEmailOrPrivateKey = async (emailOrPrivateKey, state) => {
 };
 
 export const setNewLoginToken = async (newLoginToken, state) => {
-  await storage.set('loginToken', newLoginToken);
+  console.log("set newLoginToken", newLoginToken);
+  console.log("set state", state);
+//  await storage.set('loginToken', newLoginToken);
+  localStorage.setItem('loginToken', newLoginToken);
+  console.log("storage set!");
   const newState = await pullUserObject({ ...state, loginToken: newLoginToken });
   return newState;
 
