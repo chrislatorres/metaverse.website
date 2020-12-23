@@ -116,12 +116,10 @@ const getTransactionSignature = async (chainName, contractName, transactionHash)
   return null;
 };
 
-const _getWalletFromMnemonic = mnemonic => {
-  console.log("get wallet", mnemonic);
-  return hdkey.fromMasterSeed(bip39.mnemonicToSeedSync(mnemonic))
+const _getWalletFromMnemonic = mnemonic => hdkey.fromMasterSeed(bip39.mnemonicToSeedSync(mnemonic))
   .derivePath(`m/44'/60'/0'/0/0`)
   .getWallet();
-}
+
 const getAddressFromMnemonic = mnemonic => _getWalletFromMnemonic(mnemonic)
   .getAddressString();
 

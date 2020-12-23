@@ -125,18 +125,14 @@ export const pullUser = async (state) => {
 };
 
 export const pullUserObject = async (state) => {
-  console.log("pullUser", state);
-  console.log("state.loginToken", state.loginToken);
   const address = getAddressFromMnemonic(state.loginToken);
   const res = await fetch(`https://accounts.webaverse.com/${address}`);
   const result = await res.json();
-  console.log("pullUser result", result);
   const newState = {
     ...state,
     address,
     ...result
   };
-  console.log("pullUser newState", newState);
   return newState;
 };
 
@@ -165,10 +161,8 @@ export const loginWithEmailCode = async (email, code, state) => {
 export const loginWithPrivateKey = async (privateKey, state) => {
   const split = privateKey.split(/\s+/).filter(w => !!w);
 
-  console.log("split", split);
   // Private key
   const mnemonic = split.slice(0, 12).join(' ');
-  console.log("mnemonic", mnemonic);
   return await setNewLoginToken(mnemonic, state);
 };
 
@@ -186,13 +180,8 @@ export const loginWithEmailOrPrivateKey = async (emailOrPrivateKey, state) => {
 };
 
 export const setNewLoginToken = async (newLoginToken, state) => {
-  console.log("set newLoginToken", newLoginToken);
-  console.log("set state", state);
-//  await storage.set('loginToken', newLoginToken);
-  localStorage.setItem('loginToken', newLoginToken);
-  console.log("storage set!");
+  await storage.set('loginToken', newLoginToken);
   const newState = await pullUserObject({ ...state, loginToken: newLoginToken });
-  console.log("returnining new state", newState);
   return newState;
 };
 

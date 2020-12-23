@@ -21,11 +21,9 @@ export default () => {
   }
 
   const setInitialState = (state) => {
-    console.log(state);
     pullUser({ ...state })
     .then(async res => {
       const newState = await getInventoryForCreator(res.address, 0, true, res);
-      console.log(newState);
       setGlobalState(newState);
     });
   }
@@ -35,11 +33,8 @@ export default () => {
   }
 
   const loginWithKey = () => {
-    console.log("key", key);
-    console.log("globalState", globalState);
     loginWithPrivateKey(key, globalState)
     .then(res => {
-      console.log("res", res);
       setInitialState(res);
     })
     .catch(err => {
@@ -120,7 +115,6 @@ export default () => {
    ) : null
 
   const handleChange = e => {
-    console.log(e.target.value);
     setKey(e.target.value);
   }
 
