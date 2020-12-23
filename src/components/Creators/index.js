@@ -24,14 +24,20 @@ export default () => {
 
   const Creators = () => creators ? creators.map((item, i) =>
     item.address && item.name || item.avatarPreview ?
-      <Col key={i} className="content" sm={2}>
+      <Col key={i} className="content" sm={2} style={{
+        backgroundImage: `url("${item.avatarPreview ? item.avatarPreview : preview}")`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center center",
+      }}>
         <Link to={"/accounts/" + item.address}>
-          <img src={item.avatarPreview ? item.avatarPreview : preview} />
-          <h3>{item.name ? item.name : "Anonymous"}</h3>
+          <div className="content-inner">
+            <h3 className="contentText">{item.name ? item.name : "Anonymous"}</h3>
+          </div>
         </Link>
       </Col>
     : null
-  ) : null
+   ) : null
 
   return (
     <>

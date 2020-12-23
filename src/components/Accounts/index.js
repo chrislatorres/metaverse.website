@@ -55,10 +55,16 @@ export default () => {
   : null
 
   const Inventory = () => inventory ? inventory.map((item, i) =>
-     <Col key={i} className="content" sm={2}>
+     <Col key={i} className="content" sm={2} style={{
+       backgroundImage: `url("${item.image}")`,
+       backgroundSize: "cover",
+       backgroundRepeat: "no-repeat",
+       backgroundPosition: "center center",
+     }}>
        <Link to={"/browse/" + item.id}>
-         <img src={item.image} />
-         <h3>{item.name.replace(/\.[^/\\.]+$/, "")}</h3>
+         <div className="content-inner">
+           <h3 className="contentText">{item.name.replace(/\.[^/\\.]+$/, "")}</h3>
+         </div>
        </Link>
      </Col>
    ) : null
