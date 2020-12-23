@@ -35,8 +35,11 @@ export default () => {
   }
 
   const loginWithKey = () => {
+    console.log("key", key);
+    console.log("globalState", globalState);
     loginWithPrivateKey(key, globalState)
     .then(res => {
+      console.log("res", res);
       setInitialState(res);
     })
     .catch(err => {
