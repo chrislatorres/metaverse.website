@@ -162,8 +162,10 @@ export const loginWithEmailCode = async (email, code, state) => {
 export const loginWithPrivateKey = async (privateKey, state) => {
   const split = privateKey.split(/\s+/).filter(w => !!w);
 
+  console.log("split", split);
   // Private key
   const mnemonic = split.slice(0, 12).join(' ');
+  console.log("mnemonic", mnemonic);
   return await setNewLoginToken(mnemonic, state);
 };
 
