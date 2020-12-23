@@ -41,7 +41,13 @@ const App = () => {
   });
 
   React.useEffect(() => {
-    localStorage.setItem('globalState', JSON.stringify(globalState));
+    if (globalState.logout === "true") {
+       setGlobalState({ ...globalState, logout: "false", address: "", name: "", avatarUrl: "", avatarPreview: "", avatarFileName: "" });
+      localStorage.setItem('globalState', JSON.stringify(globalState));
+    }
+    if (globalState.address) {
+      localStorage.setItem('globalState', JSON.stringify(globalState));
+    }
   }, [globalState]);
 
   React.useEffect(() => {

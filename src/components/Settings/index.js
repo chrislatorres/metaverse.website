@@ -28,7 +28,7 @@ export default () => {
   }
 
   const logout = () => {
-    setGlobalState({ ...globalState, address: "", name: "", avatarUrl: "", avatarPreview: "", avatarFileName: "" }); 
+    setGlobalState({ ...globalState, logout: "true" });
   }
 
   const loginWithKey = () => {
@@ -78,16 +78,24 @@ export default () => {
       <div className="profileHeader">
         {globalState.name ? 
           <div className="profileName">
-            <h1 className="profileText">{globalState.name}</h1>
+            <h1 className="profileText">{globalState.name ? globalState.name : "Anonymous"}</h1>
             <a className="profileText" onClick={() => logout() }>
               Logout 
             </a>
+            <div className="profileLoadout">
+              {globalState.loadout ?
+                  JSON.parse(globalState.loadout).map((item, i) =>
+                    item && item[2] ?
+                      <img key={i} className="profileLoadoutPicture" src={item[2]} />
+                    : null
+                  )
+              : null}
+            </div>
           </div>
         : null}
-        <img src={globalState.avatarPreview ? globalState.avatarPreview : preview} />
+        <img className="profilePicture" src={globalState.avatarPreview ? globalState.avatarPreview : preview} />
       </div>
     </Col>
-
 
   console.log(globalState);
   const Inventory = () => globalState.address && globalState.creatorInventories && globalState.creatorInventories[globalState.address] && globalState.creatorInventories[globalState.address][0] ? 

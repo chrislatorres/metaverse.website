@@ -31,7 +31,7 @@ export default () => {
      <Col key={i} className="content" sm={2}>
        <Link to={"/browse/" + item.id}>
          <img src={item.image} />
-         <h3>{item.name}</h3>
+         <h3>{item.name.replace(/\.[^/\\.]+$/, "")}</h3>
        </Link>
      </Col>
    ) : null
@@ -49,9 +49,9 @@ export default () => {
           <h1 className="profileText">{profile.name ? profile.name : "Anonymous"}</h1>
           <div className="profileLoadout">
             {profile.loadout ? 
-                JSON.parse(profile.loadout).map(item => 
+                JSON.parse(profile.loadout).map((item, i) => 
                   item && item[2] ? 
-                    <img className="profileLoadoutPicture" src={item[2]} />
+                    <img key={i} className="profileLoadoutPicture" src={item[2]} />
                   : null
                 ) 
             : null}
