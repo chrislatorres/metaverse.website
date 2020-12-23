@@ -7,6 +7,7 @@ import Web3 from 'web3';
 import axios from "axios";
 import { useAppContext } from "../../libs/contextLib";
 import { getCreators } from "../../functions/UIStateFunctions.js";
+import preview from "../../assets/images/preview.png";
 
 export default () => {
   const { id } = useParams();
@@ -21,16 +22,20 @@ export default () => {
     });
   }, []);
 
-  const Creators = () => creators ? creators.map((item, i) =>
-     item.avatarPreview && item.name ?
+  const Creators = () => creators ? creators.map((item, i) => {
+    console.log(item);
+
+    return(
+     item.address && item.name || item.avatarPreview ?
        <Col key={i} className="content" sm={2}>
          <Link to={"/accounts/" + item.address}>
-           <img src={item.avatarPreview} />
-           <h3>{item.name}</h3>
+           <img src={item.avatarPreview ? item.avatarPreview : preview} />
+           <h3>{item.name ? item.name : "Anonymous"}</h3>
          </Link>
        </Col>
-     : null
-   ) : null
+      : null
+    )
+   }) : null
 
   return (
     <>
