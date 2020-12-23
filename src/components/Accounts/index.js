@@ -7,6 +7,7 @@ import Web3 from 'web3';
 import axios from "axios";
 import { useAppContext } from "../../libs/contextLib";
 import { getInventoryForCreator, getProfileForCreator } from "../../functions/UIStateFunctions.js";
+import preview from "../../assets/images/preview.png";
 
 export default () => {
   const { id } = useParams();
@@ -45,16 +46,18 @@ export default () => {
       }} />
       <div className="profileHeader">
         <div className="profileName">
-          <h1 className="profileText">{profile.name}</h1>
+          <h1 className="profileText">{profile.name ? profile.name : "Anonymous"}</h1>
           <div className="profileLoadout">
-            { JSON.parse(profile.loadout).map(item => 
-              item && item[2] ? 
-                <img className="profileLoadoutPicture" src={item[2]} />
-              : null
-            )}
+            {profile.loadout ? 
+                JSON.parse(profile.loadout).map(item => 
+                  item && item[2] ? 
+                    <img className="profileLoadoutPicture" src={item[2]} />
+                  : null
+                ) 
+            : null}
           </div>
         </div>
-        <img className="profilePicture" src={profile.avatarPreview} />
+        <img className="profilePicture" src={profile.avatarPreview ? profile.avatarPreview : preview} />
       </div>
     </Col>
   : null
