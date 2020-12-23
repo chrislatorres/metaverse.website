@@ -46,8 +46,15 @@ export default () => {
       <div className="profileHeader">
         <div className="profileName">
           <h1 className="profileText">{profile.name}</h1>
+          <div className="profileLoadout">
+            { JSON.parse(profile.loadout).map(item => 
+              item && item[2] ? 
+                <img className="profileLoadoutPicture" src={item[2]} />
+              : null
+            )}
+          </div>
         </div>
-        <img src={profile.avatarPreview} />
+        <img className="profilePicture" src={profile.avatarPreview} />
       </div>
     </Col>
   : null
