@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import Web3 from 'web3';
 import { Container, Row, Col } from 'react-grid-system';
 import { FileDrop } from 'react-file-drop';
 import { useAppContext } from "../../libs/contextLib";
@@ -10,7 +9,6 @@ import "../../assets/css/mint.css";
 
 export default () => {
   const { globalState, setGlobalState } = useAppContext();
-
   const [file, setFile] = useState(null);
   const [name, setName] = useState(null);
   const [description, setDescription] = useState(null);
@@ -54,35 +52,35 @@ export default () => {
 
   return (
     <>
-          { !file ?
-            <div className="file-drop-container">
-              <FileDrop
-                onDrop={(files, e) => handleFileUpload(files[0])}
-              >
-                Drop the file you want to mint here!
-              </FileDrop>
-            </div>
-          :
-            <Container>
-              <Row style={{ justifyContent: "center" }}>
-                <Col sm={12}>
-                  <div>
-                    <img className="nft-preview" src={imagePreview ? imagePreview : null} />
-                    <label>Name</label>
-                    <input type="text" onChange={handleNameChange} />
-                    <label>Description</label>
-                    <input type="text" onChange={handleDescriptionChange} />
-                    <label>Quantity</label>
-                    <input type="number" onChange={handleQuantityChange} />
+      { !file ?
+        <div className="file-drop-container">
+          <FileDrop
+            onDrop={(files, e) => handleFileUpload(files[0])}
+          >
+            Drop the file you want to mint here!
+          </FileDrop>
+        </div>
+      :
+        <Container>
+          <Row style={{ justifyContent: "center" }}>
+            <Col sm={12}>
+              <div>
+                <img className="nft-preview" src={imagePreview ? imagePreview : null} />
+                <label>Name</label>
+                <input type="text" onChange={handleNameChange} />
+                <label>Description</label>
+                <input type="text" onChange={handleDescriptionChange} />
+                <label>Quantity</label>
+                <input type="number" onChange={handleQuantityChange} />
 
-                    <a className="button" onClick={handleMintNftButton}>
-                      Mint NFT for 10 GREASE
-                    </a>
-                  </div>
-                </Col>
-              </Row>
-            </Container>
-          }
+                <a className="button" onClick={handleMintNftButton}>
+                  Mint NFT for 10 GREASE
+                </a>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      }
     </>
   )
 }

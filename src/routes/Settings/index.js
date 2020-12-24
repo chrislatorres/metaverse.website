@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import Web3 from 'web3';
 import { Container, Row, Col } from 'react-grid-system';
 import { useAppContext } from "../../libs/contextLib";
 import { loginWithPrivateKey, getAddress, getInventoryForCreator, pullUser } from "../../functions/UIStateFunctions.js";
 import preview from "../../assets/images/preview.png";
-import { discordOauthUrl } from '../../webaverse/constants.js'
+import { discordOauthUrl } from '../../webaverse/constants.js';
+import Profile from '../../components/Profile';
+import Cards from '../../components/Inventory';
 
 export default () => {
   const { globalState, setGlobalState } = useAppContext();
@@ -68,51 +69,9 @@ export default () => {
     }
   }
 
-  const Profile = () => 
-    <Col sm={12} className="profileHeaderContainer">
-      <div className="profileHeaderBackground" style={{
-        backgroundImage: `url(${globalState.homeSpacePreview})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
-      }} />
-      <div className="profileHeader">
-        {globalState.name ? 
-          <div className="profileName">
-            <h1 className="profileText">{globalState.name ? globalState.name : "Anonymous"}</h1>
-            <a className="profileText" onClick={() => logout() }>
-              Logout 
-            </a>
-            <div className="profileLoadout">
-              {globalState.loadout ?
-                  JSON.parse(globalState.loadout).map((item, i) =>
-                    item && item[2] ?
-                      <img key={i} className="profileLoadoutPicture" src={item[2]} />
-                    : null
-                  )
-              : null}
-            </div>
-          </div>
-        : null}
-        <img className="profilePicture" src={globalState.avatarPreview ? globalState.avatarPreview : preview} />
-      </div>
-    </Col>
-
   const Inventory = () => globalState.address && globalState.creatorInventories && globalState.creatorInventories[globalState.address] && globalState.creatorInventories[globalState.address][0] ? 
-    globalState.creatorInventories[globalState.address][0].map((item, i) =>
-     <Col key={i} className="content" sm={2} style={{
-       backgroundImage: `url("${item.image}")`,
-       backgroundSize: "cover",
-       backgroundRepeat: "no-repeat",
-       backgroundPosition: "center center",
-     }}>
-       <Link to={"/browse/" + item.id}>
-         <div className="content-inner">
-           <h3 className="contentText">{item.name.replace(/\.[^/\\.]+$/, "")}</h3>
-         </div>
-       </Link>
-     </Col>
-   ) : null
+     <Cards inventory={globalState.creatorInventories[globalState.address][0]} />
+   : null
 
   const handleChange = e => {
     setKey(e.target.value);
@@ -123,7 +82,7 @@ export default () => {
       <Row style={{ justifyContent: "center" }}>
         { globalState.address ?
           <Col sm={12}>
-            <Profile />
+            <Profile profile={globalState} />
             <Row style={{ justifyContent: "center" }}>
               <Inventory />
             </Row>

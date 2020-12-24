@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import MoonLoader from "react-spinners/MoonLoader";
 import { Container, Row, Col } from 'react-grid-system';
 import { useParams } from "react-router-dom"
-import Web3 from 'web3';
-import axios from "axios";
 import { useAppContext } from "../../libs/contextLib";
 import { getInventoryForCreator, getProfileForCreator } from "../../functions/UIStateFunctions.js";
+import Loader from "../../components/Loader";
 
 export default () => {
   const { id } = useParams();
@@ -19,23 +17,7 @@ export default () => {
       setItem(res.creatorInventories[id][0]);
       setLoading(false);
     });
-
-/*
-    getProfileForCreator(id, globalState).then(res => {
-      setProfile(res.creatorProfiles[id]);
-      setLoading(false);
-    });
-*/
   }, []);
-
-/*
-  const Item = () => item ? 
-     <Col className="content" sm={2}>
-       <img src={item.image} />
-       <h3>{item.name}</h3>
-     </Col>
-   : null
-*/
 
   const Item = () => item ? 
     <Col sm={10}>
@@ -49,25 +31,12 @@ export default () => {
     </Col>
   : null
 
-
   return (
-    <>
-      <Container>
-       <Row style={{ justifyContent: "center" }}>
-        {loading ?
-              <MoonLoader
-                css={"display: inline-block"}
-                size={50}
-                color={"#c4005d"}
-                loading={loading}
-              />
-        :
-          <>
-            <Item />
-          </>
-        }
-        </Row>
-      </Container>
-    </>
+    <Container>
+      <Row style={{ justifyContent: "center" }}>
+        <Loader loading={loading} />
+        <Item />
+      </Row>
+    </Container>
   )
 }

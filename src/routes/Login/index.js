@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useParams } from "react-router-dom"
-import MoonLoader from "react-spinners/MoonLoader";
 import { useAppContext } from "../../libs/contextLib";
 import { parseQuery } from "../../functions/Functions";
+import Loader from "../../components/Loader";
 
 export default () => {
   const { code } = useParams();
@@ -21,12 +21,5 @@ export default () => {
     }
   }, []);
 
-  return( 
-    <MoonLoader
-      css={"display: inline-block"}
-      size={50}
-      color={"#c4005d"}
-      loading={loading}
-    />
-  )
+  return <Loader loading={true} />
 }
