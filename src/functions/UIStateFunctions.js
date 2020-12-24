@@ -5,7 +5,6 @@ import storage from '../webaverse/storage.js';
 
 const hdkey = hdkeySpec.default;
 
-
 export const getBalance = async (state) => {
   try {
     const wallet = hdkey.fromMasterSeed(bip39.mnemonicToSeedSync(state.loginToken)).derivePath(`m/44'/60'/0'/0/0`).getWallet();
@@ -93,10 +92,13 @@ export const getProfileForCreator = async (creatorAddress, state) => {
 
   const res = await fetch(`https://accounts.webaverse.com/${creatorAddress}`);
   const creatorProfile = await res.json();
+  console.log("createrProfile", creatorProfile);
   let newState = { ...state };
   newState.creatorProfiles[creatorAddress] = creatorProfile;
   const nextState = await getBoothForCreator(creatorAddress, 1, false, newState);
+  console.log("nextState", nextState);
   const lastState = await getInventoryForCreator(creatorAddress, 1, false, nextState);
+  console.log("lastState", lastState);
   return lastState;
 };
 
